@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var confirmButton: UIButton!
     
     var loginFlag: Bool = false {
-        didSet { 
+        didSet { // если перенести логику проверки из метода внутрь этого скоупа - то надо менять на  willSet чтобы избежать задержки
             changeConfirmationButtonEnabled()
         }
     }
@@ -65,7 +65,7 @@ class ViewController: UIViewController {
         } else {
             self.confirmButton.isEnabled = false
         }
-        
+        //passwordFlag && newValue  ? self.confirmButton.isEnabled = true : self.confirmButton.isEnabled = false
     }
     
     @IBAction func confirmButton(_ sender: UIButton) {
@@ -74,7 +74,7 @@ class ViewController: UIViewController {
             alertController = UIAlertController(title: "Success", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "Ok", style: .default) { (alert) in
                 let secondVC = InfoCityViewController()
-                
+                //let navController = UINavigationController(rootViewController: self)//UINavigationController(navigationBarClass: <#T##AnyClass?#>, toolbarClass: <#T##AnyClass?#>)
                 self.navigationController?.pushViewController(secondVC, animated: true)
             }
             alertController.addAction(action)
@@ -88,5 +88,3 @@ class ViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 }
-
-

@@ -11,17 +11,13 @@ class InfoCityViewController: UIViewController {
     
     var dataManager: DataManagable?
     
-    var tableView: UITableView {
-        let table = UITableView(frame: self.view.frame, style: .grouped)
-        table.frame = self.view.bounds
-        return table
-    }
+    lazy var tableView: UITableView = UITableView(frame: self.view.bounds, style: .grouped)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         
-        tableView.translatesAutoresizingMaskIntoConstraints = true
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
         tableView.frame = tableView.superview?.bounds ?? self.view.bounds
         tableView.delegate = self
@@ -29,8 +25,12 @@ class InfoCityViewController: UIViewController {
         tableView.register(CityTableViewCell.self, forCellReuseIdentifier: "MainCityCell")
         self.view.addSubview(tableView)
         
-        NSLayoutConstraint.activate([tableView.heightAnchor.constraint(equalTo:                                             self.view.heightAnchor, multiplier: 0),
-                                     tableView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0)])
+        NSLayoutConstraint
+            .activate([
+                        tableView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+                        tableView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
+                        tableView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                        tableView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
         // Do any additional setup after loading the view.
     }
     
@@ -53,6 +53,7 @@ class InfoCityViewController: UIViewController {
 }
 
 //MARK: - TableViewProtocols
+
 extension InfoCityViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return getDataModel().count
@@ -77,6 +78,10 @@ extension InfoCityViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = CityTableViewCell(style: .default, reuseIdentifier: "MainCityCell")
         cell.cityNameLabel.text = getDataModel()[indexPath.section].cities[indexPath.row].name
         cell.cityPopulationLabel.text = String(getDataModel()[indexPath.section].cities[indexPath.row].population)
+        cell.cityNameLabel.sizeToFit()
+        cell.cityPopulationLabel.sizeToFit()
+        //cell.cityNameLabel.contentScaleFactor
+        //cell.intrinsicContentSiz
         if(indexPath.row % 2 == 0) {
             cell.backgroundColor = UIColor.white
         }
