@@ -33,6 +33,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //let observable = Observable.from(optional: loginTextField.text)
+        //var observable = loginTextField.rx.text.orEmpty.asObservable()
         loginTextField
             .rx.text
             .orEmpty
@@ -65,7 +67,6 @@ class ViewController: UIViewController {
         } else {
             self.confirmButton.isEnabled = false
         }
-        //passwordFlag && newValue  ? self.confirmButton.isEnabled = true : self.confirmButton.isEnabled = false
     }
     
     @IBAction func confirmButton(_ sender: UIButton) {
@@ -74,7 +75,6 @@ class ViewController: UIViewController {
             alertController = UIAlertController(title: "Success", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "Ok", style: .default) { (alert) in
                 let secondVC = InfoCityViewController()
-                //let navController = UINavigationController(rootViewController: self)//UINavigationController(navigationBarClass: <#T##AnyClass?#>, toolbarClass: <#T##AnyClass?#>)
                 self.navigationController?.pushViewController(secondVC, animated: true)
             }
             alertController.addAction(action)
@@ -88,3 +88,4 @@ class ViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 }
+
