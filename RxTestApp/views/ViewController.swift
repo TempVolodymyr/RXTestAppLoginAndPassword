@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmButton: UIButton!
     
+    lazy var viewModel = MainViewModel()
+    
     var loginFlag: Bool = false {
         didSet { // если перенести логику проверки из метода внутрь этого скоупа - то надо менять на  willSet чтобы избежать задержки
             changeConfirmationButtonEnabled()
@@ -35,6 +37,26 @@ class ViewController: UIViewController {
         
         //let observable = Observable.from(optional: loginTextField.text)
         //var observable = loginTextField.rx.text.orEmpty.asObservable()
+        viewModel = MainViewModel()
+        
+        loginTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.login)
+            .disposed(by: disposeBag)
+        
+        passwordTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.password)
+            .disposed(by: disposeBag)
+        
+        confirmButton.rx.tap
+            .bind(to: viewModel.buttonDidTapped)
+            .disposed(by: disposeBag)
+        
+        viewModel.isValidLength
+            .bind(to: confirmButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
         loginTextField
             .rx.text
             .orEmpty
@@ -59,6 +81,13 @@ class ViewController: UIViewController {
             }, onError: nil, onCompleted: nil, onDisposed: nil)
             .disposed(by: disposeBag)
     
+    //.distinctUntillChanged() // проверет что новое значение идентично старому если новое значение не появилось?
+    //.filter { !$0.isEmpty() }
+    //.subscribe({ [unowned self] event in
+    //                print(event)
+    //            })
+        //Observable.just(<#T##element: _##_#>)
+        // Do any additional setup after loading the view.
     }
     
     func changeConfirmationButtonEnabled() {
@@ -67,6 +96,7 @@ class ViewController: UIViewController {
         } else {
             self.confirmButton.isEnabled = false
         }
+        //passwordFlag && newValue  ? self.confirmButton.isEnabled = true : self.confirmButton.isEnabled = false
     }
     
     @IBAction func confirmButton(_ sender: UIButton) {
@@ -75,6 +105,7 @@ class ViewController: UIViewController {
             alertController = UIAlertController(title: "Success", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "Ok", style: .default) { (alert) in
                 let secondVC = InfoCityViewController()
+                //let navController = UINavigationController(rootViewController: self)//UINavigationController(navigationBarClass: <#T##AnyClass?#>, toolbarClass: <#T##AnyClass?#>)
                 self.navigationController?.pushViewController(secondVC, animated: true)
             }
             alertController.addAction(action)
@@ -89,3 +120,25 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController {
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    //методы из екстеншна нельзя переопределять
+}
+
+class superpurer {
+    
+}
+extension superpurer {
+    func method() {
+        print(1)
+        
+    }
+}
+
+class pupersuper: superpurer {
+   //  override func method() {
+        
+    //}
+}

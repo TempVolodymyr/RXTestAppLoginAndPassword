@@ -16,6 +16,8 @@ class CityTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         cityNameLabel.translatesAutoresizingMaskIntoConstraints = false
         cityPopulationLabel.translatesAutoresizingMaskIntoConstraints = false
+        //cityNameLabel.contentMode = .left
+        //cityNameLabel.sizeToFit()
         self.contentView.addSubview(cityNameLabel)
         self.contentView.addSubview(cityPopulationLabel)
 
@@ -44,7 +46,10 @@ class CityTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        //actio
         // Configure the view for the selected state
     }
     
+    //override func
+
 }
